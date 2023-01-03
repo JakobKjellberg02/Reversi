@@ -111,6 +111,7 @@ public class boardModel {
          
         if (safeToMove == false) {
             BOARD[x][y] = '.';
+            System.out.println("Illegal move!");
         } 
     }
 
