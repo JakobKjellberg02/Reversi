@@ -27,7 +27,6 @@ public class boardView {
             for (int col = 0; col < size; col++) {
                  System.out.print((b[row][col]));
             }
-            System.out.println();
         }
     }
 
