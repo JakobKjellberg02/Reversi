@@ -39,8 +39,6 @@ public class BoardModel {
             enemy_color = 'W';
         }
 
-
-        //System.out.println("enemy" + enemy_color);
         //dx and dy works like a compass so it moves diagonal, horizontal and vertical
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
@@ -53,13 +51,11 @@ public class BoardModel {
                 y = current_y;
 
                 //checks all directions
-                while (x != 0 || y != 0 || x < SIZE || y < SIZE) {
-                    //System.out.println("x: " + x + " y:" + y);
-                    //System.out.println("dx: " + dx + "dy: " + dy);
+                while (x < 0 || y < 0 || x < SIZE || y < SIZE) {
                     x += dx;
                     y += dy;
                     //Out of bounds or own position it will break out of loop
-                    if (x == 0 || y == 0 || x > SIZE -1 || y > SIZE -1 || (dx == 0 && dy == 0)) {
+                    if (x <= 0 || y <= 0 || x > SIZE -1 || y > SIZE -1 || (dx == 0 && dy == 0)) {
                         break;
                     }
                     //If empty or your own brick is found it will also break
@@ -74,7 +70,6 @@ public class BoardModel {
                         for (int row = 0; row < potentialMoves.length; row++) {
                             for (int col = 0; col < potentialMoves.length; col++) {
                                if (potentialMoves[row][col] != 0) {
-                                    //System.out.println("color: " + my_color + "move: " + row + col);
                                     listOfMoves[row][col] = true; 
                                }
                             }

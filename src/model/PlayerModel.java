@@ -1,5 +1,6 @@
 package model;
 
+//Player class - very basic for now
 public class PlayerModel {
     String name;
     int points;

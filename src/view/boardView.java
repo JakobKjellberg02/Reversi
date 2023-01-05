@@ -38,6 +38,7 @@ public class BoardView extends Application{
   public Button passButton;
   public TextField score;
 
+  //Primary stage for the program
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -76,6 +77,7 @@ public class BoardView extends Application{
     primaryStage.show();
   }
 
+  //Updates the colors of the board
   public void update(){
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
@@ -84,14 +86,17 @@ public class BoardView extends Application{
     }
 	}
 
+  //Changes the display of the player 
   public void changeScore(){
     score.setText(players[turn].getName() + " " + players[turn].getPoints() + " " + players[turn].getColor());
   }
 
+  //Main method of the GUI
   public static void main(String[] args) {
     Application.launch(args);
   }
 
+  //Method for changing from char to a GUI color 
   public static void changeColor(Button[][] button, BoardModel BOARDMODEL, char[][] board_data, int i, int j) {
     if (BOARDMODEL.getID(i,j,board_data) == 'B') {
      button[i][j].setStyle("-fx-background-color: #000000");
