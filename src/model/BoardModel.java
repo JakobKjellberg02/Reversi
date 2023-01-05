@@ -99,25 +99,30 @@ public class BoardModel {
 
     //Method for player's turn
     public void turn(int x, int y, char my_color) {
-        //Places the color
-        BOARD[x][y] = my_color;
-        boolean[][] MOVES = new boolean[SIZE][SIZE];
-        MOVES = checkIfMoveIsValid(BOARD, x, y, my_color);
-        boolean safeToMove = false;
-        //If it doesn't find any valid moves, it will send an illegal move message
-        for (int row = 0; row < MOVES.length; row++) {
-            for (int col = 0; col < MOVES.length; col++) {
-               if (MOVES[row][col] == true) {
-                    safeToMove = true;
-                    place(row, col, my_color);
+        //Detects first if you put brick on a brick
+        if (getID(x,y,BOARD) == 'W' || getID(x,y,BOARD) == 'B') {
+            System.out.println("NOT VALID");
+        } else {
+             //Places the color
+            BOARD[x][y] = my_color;
+            boolean[][] MOVES = new boolean[SIZE][SIZE];
+            MOVES = checkIfMoveIsValid(BOARD, x, y, my_color);
+            boolean safeToMove = false;
+            //If it doesn't find any valid moves, it will send an illegal move message
+            for (int row = 0; row < MOVES.length; row++) {
+                for (int col = 0; col < MOVES.length; col++) {
+                    if (MOVES[row][col] == true) {
+                        safeToMove = true;
+                        place(row, col, my_color);
+                    }
                }
             }
-         }
          
-        if (safeToMove == false) {
-            BOARD[x][y] = '.';
-            System.out.println("Illegal move!");
-        } 
+            if (safeToMove == false) {
+                BOARD[x][y] = '.';
+                System.out.println("Illegal move!");
+            } 
+        }
     }
 
     //Gets the size of board
