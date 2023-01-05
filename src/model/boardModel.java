@@ -2,13 +2,13 @@ package model;
 
 import java.util.Arrays;
 
-public class boardModel {
+public class BoardModel {
     //Fields for the board model
     int SIZE;
     char[][] BOARD;
 
     //Constructor
-    public boardModel(int SIZE) {
+    public BoardModel(int SIZE) {
         this.SIZE = SIZE;
         this.BOARD = new char[SIZE][SIZE];
     }
@@ -133,6 +133,10 @@ public class boardModel {
     //Gets the board
     public char[][] getBoard(){
         return BOARD;
+    }
+
+    public char getID(int x, int y,char[][] board) {
+        return board[x][y]; 
     }
 
     //Place the brick 
