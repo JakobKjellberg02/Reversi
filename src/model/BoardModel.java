@@ -42,48 +42,56 @@ public class BoardModel {
 
         //dx and dy works like a compass so it moves diagonal, horizontal and vertical
         for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
+                for (int dy = -1; dy <= 1; dy++) {
 
-                int foundEnemy = 0;
-                boolean foundPotentialMove = false;
-                char[][] potentialMoves = new char[SIZE][SIZE];
+                    //Variables
+                    int foundEnemy = 0;
+                    boolean foundPotentialMove = false;
+                    //List with potential moves 
+                    char[][] potentialMoves = new char[SIZE][SIZE];
 
-                x = current_x;
-                y = current_y;
-
-                //checks all directions
-                while (x < 0 || y < 0 || x < SIZE || y < SIZE) {
-                    x += dx;
-                    y += dy;
-                    //Out of bounds or own position it will break out of loop
-                    if (x < 0 || y < 0 || x > SIZE -1  || y > SIZE -1 || (dx == 0 && dy == 0)) {
-                        break;
-                    }
-                    //If empty or your own brick is found it will also break
-                    foundEnemy = checkFoundEnemy(x, y, enemy_color);
-                    if (foundEnemy == 0) {
-                        break;
-                    }
-                    if (foundEnemy == 2 && foundPotentialMove == false) {
-                        break;
-                    //Adds positions of bricks you can flip 
-                    } else if (foundEnemy == 2 && foundPotentialMove == true) {
-                        for (int row = 0; row < potentialMoves.length; row++) {
-                            for (int col = 0; col < potentialMoves.length; col++) {
-                               if (potentialMoves[row][col] != 0) {
-                                    listOfMoves[row][col] = true; 
-                               }
+                    //Assigns elements to variables
+                    x = current_x;
+                    y = current_y;
+                    
+                    //checks all directions
+                    while (x < 0 || y < 0 || x < SIZE || y < SIZE) {
+                        x += dx;
+                        y += dy;
+                        //Out of bounds or own position it will break out of loop
+                        if (x < 0 || y < 0 || x > SIZE -1  || y > SIZE -1 || (dx == 0 && dy == 0)) {
+                            break;
+                        }
+                        //If empty or your own brick is found it will also break
+                        foundEnemy = checkFoundEnemy(x, y, enemy_color);
+                        if (foundEnemy == 0) {
+                            break;
+                        }
+                        //Break out if found ally immediately
+                        if (foundEnemy == 2 && foundPotentialMove == false) {
+                            break;
+                        //Adds positions of bricks you can flip 
+                        } else if (foundEnemy == 2 && foundPotentialMove == true) {
+                            for (int row = 0; row < potentialMoves.length; row++) {
+                                for (int col = 0; col < potentialMoves.length; col++) {
+                                    if (potentialMoves[row][col] != 0) {
+                                        listOfMoves[row][col] = true; 
+                                    }
+                                }
                             }
-                         }
-                    } 
-                    else {
-                        potentialMoves[x][y] = my_color;
-                        foundPotentialMove = true;
-                    }
+                            //Breaks out of loop if it sees an ally again after only seeing white
+                            break;
+                            
+                        } else {
+                            //The player can maybe make a move so we note that
+                            potentialMoves[x][y] = my_color;
+                            foundPotentialMove = true;
+                        }
 
+                    }
                 }
-            }
         }
+        //Returns the positions in a list
         return listOfMoves;
     }
 
@@ -118,7 +126,8 @@ public class BoardModel {
                     }
                }
             }
-         
+            
+            //Detects if it is an illegal move
             if (safeToMove == false) {
                 BOARD[x][y] = '.';
                 System.out.println("Illegal move!");

@@ -26,7 +26,7 @@ public class BoardController  {
 					for (int col = 0; col < BoardView.BOARD_SIZE; col++) {
 						if (evt.getSource() == boardView.board_gui[row][col]) {
 							//Makes the turn from which the button has been pressed on the grid
-							if (boardModel.safeToMove != true) {
+							if (boardModel.safeToMove = true) {
 								boardModel.turn(row, col, boardView.players[boardView.turn].getColor());
 							//Updates our GUI
 							boardView.update();		

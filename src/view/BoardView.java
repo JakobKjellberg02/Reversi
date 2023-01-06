@@ -40,16 +40,6 @@ public class BoardView extends Application{
     primaryStage.setTitle("Reversi");
     BorderPane bPane = new BorderPane();
 
-    if (players[0].successfulPlay == false && players[1].successfulPlay == false) {
-      if (players[0].points > players[1].points) {
-        System.out.println(players[0].getName() + " vandt!");
-      } else if (players[0].points < players[1].points) {
-        System.out.println(players[1].getName() + " vandt!");
-      } else {
-        System.out.println("Uafgjort D:");
-      }
-    }
-
     //Center piece of the screen - The Board
     board_gui = new Button[BOARD_SIZE][BOARD_SIZE];
     GridPane gridPane = new GridPane();

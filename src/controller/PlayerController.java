@@ -27,14 +27,14 @@ public class PlayerController {
 				Button x = (Button) evt.getSource();    
 				//User clicks on the pass button
 				if (x.getId().equals(boardView.passButton.getId())) {
-					//Passes to the next player if it has made a turn
+					//Passes to the next player if it has made a turn 
 					if (boardModel.safeToMove == true) {
-						boardView.players[boardView.turn].successfulPlay = false;
 						if (boardView.turn == 1) {
 							boardView.turn = 0;
 						} else {
 							boardView.turn = 1;
 						}
+						boardView.players[boardView.turn].successfulPlay = true;
 						boardModel.safeToMove = false;	
 						System.out.println("It is now: " + boardView.players[boardView.turn].getName() + "'s turn!");
 						boardView.changeScore();
@@ -59,9 +59,12 @@ public class PlayerController {
 								}
 							}
 						}
+						//The player can make a turn
 						if (validTurn == true) {
 							System.out.println("You can make a turn!");
 						} else {
+							//The player can maybe lose now if the other player also gets this 
+							decideTheMatch();
 							System.out.println("GG");
 							switchPlayer();
 						}
@@ -74,7 +77,9 @@ public class PlayerController {
 		});
 	}
 
+	//Method for switching player an assigning an unsuccesful play to the players list 
 	private void switchPlayer() {
+		boardView.players[boardView.turn].successfulPlay = false;
 		if (boardView.turn == 1) {
 			boardView.turn = 0;
 		} else {
@@ -82,8 +87,21 @@ public class PlayerController {
 		}
 		boardModel.safeToMove = false;	
 		System.out.println("It is now: " + boardView.players[boardView.turn].getName() + "'s turn!");
-		boardView.players[boardView.turn].successfulPlay = false;
 		boardView.changeScore();
+	}
+
+	//Method for checking if the match is over 
+	private void decideTheMatch() {
+		if (boardView.players[0].successfulPlay == false && boardView.players[1].successfulPlay == false) {
+			if (boardView.players[0].points > boardView.players[1].points) {
+			  System.out.println(boardView.players[0].getName() + " vandt!");
+			} else if (boardView.players[0].points < boardView.players[1].points) {
+			  System.out.println(boardView.players[1].getName() + " vandt!");
+			} else {
+			  System.out.println("Uafgjort D:");
+			}
+		  }
+	  
 	}
 
 	//Event handler
