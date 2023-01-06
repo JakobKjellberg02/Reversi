@@ -48,13 +48,16 @@ public class BoardView extends Application{
     //Center piece of the screen - The Board
     board_gui = new Button[BOARD_SIZE][BOARD_SIZE];
     GridPane gridPane = new GridPane();
+    gridPane.setPrefSize(600, 600);
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
         // tilføjer knapper i hvert kvadrat
         board_gui[i][j] = new Button();
+        board_gui[i][j].setPrefSize(60, 60);
         changeColor(board_gui, BOARD, board_data, i,j);
         gridPane.add(board_gui[i][j], j,i);
         board_gui[i][j].setOnAction(boardController.getEventHandler());
+        
       }
     }
     bPane.setCenter(gridPane); 
@@ -85,6 +88,7 @@ public class BoardView extends Application{
       }
     }
 	}
+
 
   //Changes the display of the player 
   public void changeScore(){
