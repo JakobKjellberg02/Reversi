@@ -1,7 +1,4 @@
 package view;
-
-
-
 import controller.BoardController;
 import controller.PlayerController;
 import javafx.application.Application;
@@ -14,8 +11,6 @@ import javafx.stage.Stage;
 import model.BoardModel;
 import model.PlayerModel;
 
-
-
 public class BoardView extends Application{
 
   //Fields
@@ -24,14 +19,14 @@ public class BoardView extends Application{
 
   //Models
   private BoardModel BOARD = new BoardModel(8);
-  private PlayerModel player1 = new PlayerModel("Michael",0,'B');
-  private PlayerModel player2 = new PlayerModel("Tom",0,'W');
+  private PlayerModel player1 = new PlayerModel("Michael",2,'B');
+  private PlayerModel player2 = new PlayerModel("Tom",2,'W');
   public PlayerModel[] players = {player1, player2};
   char[][] board_data = BOARD.initializeBoard();
 
   //Controller
   private BoardController boardController = new BoardController(BOARD, this);
-  private PlayerController playerController = new PlayerController(players[turn], this);
+  private PlayerController playerController = new PlayerController(BOARD, this);
 
   //GUI
   public Button[][] board_gui;
@@ -82,11 +77,19 @@ public class BoardView extends Application{
 
   //Updates the colors of the board
   public void update(){
+    players[0].points = 0;
+    players[1].points = 0;
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
         changeColor(board_gui, BOARD, board_data, i,j);
+        if (BOARD.getID(i, j, board_data) == players[0].getColor()) {
+          players[0].points += 1;
+        } else if (BOARD.getID(i, j, board_data) == players[1].getColor()) {
+          players[1].points += 1;
+        }
       }
     }
+    changeScore();
 	}
 
 
