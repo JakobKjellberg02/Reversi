@@ -3,8 +3,9 @@ package model;
 //Player class - very basic for now
 public class PlayerModel {
     String name;
-    int points;
+    public int points;
     char color;
+    public boolean successfulPlay = true;
 
     public PlayerModel(String name,int points, char color) {
         this.name = name;
@@ -22,6 +23,10 @@ public class PlayerModel {
 
     public char getColor() {
         return color;
+    }
+
+    public boolean getSuccessfulPlay() {
+        return successfulPlay;
     }
 
 }

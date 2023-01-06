@@ -6,6 +6,7 @@ public class BoardModel {
     //Fields for the board model
     int SIZE;
     char[][] BOARD;
+    public boolean safeToMove = false;
 
     //Constructor
     public BoardModel(int SIZE) {
@@ -55,7 +56,7 @@ public class BoardModel {
                     x += dx;
                     y += dy;
                     //Out of bounds or own position it will break out of loop
-                    if (x <= 0 || y <= 0 || x > SIZE -1 || y > SIZE -1 || (dx == 0 && dy == 0)) {
+                    if (x < 0 || y < 0 || x > SIZE -1  || y > SIZE -1 || (dx == 0 && dy == 0)) {
                         break;
                     }
                     //If empty or your own brick is found it will also break
@@ -100,14 +101,14 @@ public class BoardModel {
     //Method for player's turn
     public void turn(int x, int y, char my_color) {
         //Detects first if you put brick on a brick
-        if (getID(x,y,BOARD) == 'W' || getID(x,y,BOARD) == 'B') {
+        if (getID(x,y,BOARD) != '.') {
             System.out.println("NOT VALID");
         } else {
              //Places the color
             BOARD[x][y] = my_color;
             boolean[][] MOVES = new boolean[SIZE][SIZE];
             MOVES = checkIfMoveIsValid(BOARD, x, y, my_color);
-            boolean safeToMove = false;
+            safeToMove = false;
             //If it doesn't find any valid moves, it will send an illegal move message
             for (int row = 0; row < MOVES.length; row++) {
                 for (int col = 0; col < MOVES.length; col++) {
@@ -135,6 +136,7 @@ public class BoardModel {
         return BOARD;
     }
 
+    //Gets the ID of the position
     public char getID(int x, int y,char[][] board) {
         return board[x][y]; 
     }
