@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -46,6 +47,7 @@ public class BoardView extends Application{
   public Button[][] board_gui;
   public Button passButton;
   public TextField score;
+  public Button restartButton;
 
   //Primary stage for the program
   @Override
@@ -83,7 +85,7 @@ public class BoardView extends Application{
     passButton.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
     passButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     passButton.setOnAction(playerController.getEventHandler());
-    bPane.setBottom(passButton);
+    
 
     //Top piece of the screen
     score = new TextField();
@@ -98,10 +100,22 @@ public class BoardView extends Application{
     //Change the alignment of the text
     score.setAlignment(Pos.CENTER);
 
+    //restart button bottom right
+    restartButton= new Button();
+    restartButton.setText("Restart");
+    restartButton.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18));
+    restartButton.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+    restartButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+    
+
     //Combines it all to the scene
     Scene scene = new Scene(bPane, 500, 500);
     primaryStage.setScene(scene);
     primaryStage.show();
+    //adds pass and restart buttons
+    HBox buttonsBox = new HBox();
+    buttonsBox.getChildren().addAll(passButton, restartButton);
+    bPane.setBottom(buttonsBox); // Add the buttonsbox to the bottom of the BorderPane
   }
 
   //Updates the colors of the board
