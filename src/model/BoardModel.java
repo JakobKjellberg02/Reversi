@@ -49,46 +49,46 @@ public class BoardModel {
 
         //dx and dy works like a compass so it moves diagonal, horizontal and vertical
         for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    //Variables and potential list
-                    int foundEnemy = 0;
-                    boolean foundPotentialMove = false;
-                    List<Point> potentialCoordinates = new ArrayList<>();
+            for (int dy = -1; dy <= 1; dy++) {
+                //Variables and potential list
+                int foundEnemy = 0;
+                boolean foundPotentialMove = false;
+                List<Point> potentialCoordinates = new ArrayList<>();
 
-                    //Assigns elements to variables
-                    x = current_x;
-                    y = current_y;
+                //Assigns elements to variables
+                x = current_x;
+                y = current_y;
                     
-                    //checks all directions
-                    while (x < 0 || y < 0 || x < SIZE || y < SIZE) {
-                        x += dx;
-                        y += dy;
-                        //Out of bounds or own position it will break out of loop
-                        if (x < 0 || y < 0 || x > SIZE -1  || y > SIZE -1 || (dx == 0 && dy == 0)) {
-                            break;
+                //checks all directions
+                while (x < 0 || y < 0 || x < SIZE || y < SIZE) {
+                    x += dx;
+                    y += dy;
+                    //Out of bounds or own position it will break out of loop
+                    if (x < 0 || y < 0 || x > SIZE -1  || y > SIZE -1 || (dx == 0 && dy == 0)) {
+                        break;
+                    }
+                    foundEnemy = checkFoundEnemy(x, y, enemy_color);
+                    //If empty or your own brick is found it will also break
+                    if (foundEnemy == 0) {
+                        break;
+                    //Break out if found ally immediately
+                    } else if (foundEnemy == 2 && foundPotentialMove == false) {
+                        break;
+                    //Adds positions of bricks you can flip 
+                    } else if (foundEnemy == 2 && foundPotentialMove == true) {
+                        for (int i = 0; i < potentialCoordinates.size(); i++) {
+                            coordinates.add(new Point(potentialCoordinates.get(i).x, potentialCoordinates.get(i).y));
                         }
-                        foundEnemy = checkFoundEnemy(x, y, enemy_color);
-                        //If empty or your own brick is found it will also break
-                        if (foundEnemy == 0) {
-                            break;
-                        //Break out if found ally immediately
-                        } else if (foundEnemy == 2 && foundPotentialMove == false) {
-                            break;
-                        //Adds positions of bricks you can flip 
-                        } else if (foundEnemy == 2 && foundPotentialMove == true) {
-                            for (int i = 0; i < potentialCoordinates.size(); i++) {
-                                coordinates.add(new Point(potentialCoordinates.get(i).x, potentialCoordinates.get(i).y));
-                            }
-                            //Breaks out of loop if it sees an ally again after only seeing white
-                            break;
-                        } else {
-                             //The player can maybe make a move so we note that
-                            potentialCoordinates.add(new Point(x,y));
-                            foundPotentialMove = true;
+                        //Breaks out of loop if it sees an ally again after only seeing white
+                        break;
+                    } else {
+                        //The player can maybe make a move so we note that
+                        potentialCoordinates.add(new Point(x,y));
+                        foundPotentialMove = true;
                         }
 
-                    }
                 }
+            }
         }
         //Returns the positions in a list
         return coordinates;
