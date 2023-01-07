@@ -109,7 +109,7 @@ public class BoardView extends Application{
     
 
     //Combines it all to the scene
-    Scene scene = new Scene(bPane, 500, 500);
+    Scene scene = new Scene(bPane, 500, 555);
     primaryStage.setScene(scene);
     primaryStage.show();
     //adds pass and restart buttons
