@@ -1,6 +1,9 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.awt.Point;
 
 public class BoardModel {
     //Fields for the board model
@@ -20,6 +23,7 @@ public class BoardModel {
         for (char[] row: BOARD) {
             Arrays.fill(row, '.');    
         }
+        //Center pieces
         BOARD[3][3] = 'W';
         BOARD[3][4] = 'B';
         BOARD[4][3] = 'B';
@@ -28,11 +32,14 @@ public class BoardModel {
     }
 
     //Method for checking if move is valid
-    public boolean[][] checkIfMoveIsValid(char board[][], int current_x, int current_y, char my_color) {
+    public List<Point> checkIfMoveIsValid(char board[][], int current_x, int current_y, char my_color) {
         int x = current_x;
         int y = current_y;
-        boolean[][] listOfMoves = new boolean[SIZE][SIZE];
 
+        //ArrayList with coordinates
+        List<Point> coordinates = new ArrayList<>();
+
+        //Detects enemy's color
         char enemy_color;
         if (my_color == 'W') {
             enemy_color = 'B';
@@ -43,12 +50,10 @@ public class BoardModel {
         //dx and dy works like a compass so it moves diagonal, horizontal and vertical
         for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
-
-                    //Variables
+                    //Variables and potential list
                     int foundEnemy = 0;
                     boolean foundPotentialMove = false;
-                    //List with potential moves 
-                    char[][] potentialMoves = new char[SIZE][SIZE];
+                    List<Point> potentialCoordinates = new ArrayList<>();
 
                     //Assigns elements to variables
                     x = current_x;
@@ -62,29 +67,23 @@ public class BoardModel {
                         if (x < 0 || y < 0 || x > SIZE -1  || y > SIZE -1 || (dx == 0 && dy == 0)) {
                             break;
                         }
-                        //If empty or your own brick is found it will also break
                         foundEnemy = checkFoundEnemy(x, y, enemy_color);
+                        //If empty or your own brick is found it will also break
                         if (foundEnemy == 0) {
                             break;
-                        }
                         //Break out if found ally immediately
-                        if (foundEnemy == 2 && foundPotentialMove == false) {
+                        } else if (foundEnemy == 2 && foundPotentialMove == false) {
                             break;
                         //Adds positions of bricks you can flip 
                         } else if (foundEnemy == 2 && foundPotentialMove == true) {
-                            for (int row = 0; row < potentialMoves.length; row++) {
-                                for (int col = 0; col < potentialMoves.length; col++) {
-                                    if (potentialMoves[row][col] != 0) {
-                                        listOfMoves[row][col] = true; 
-                                    }
-                                }
+                            for (int i = 0; i < potentialCoordinates.size(); i++) {
+                                coordinates.add(new Point(potentialCoordinates.get(i).x, potentialCoordinates.get(i).y));
                             }
                             //Breaks out of loop if it sees an ally again after only seeing white
                             break;
-                            
                         } else {
-                            //The player can maybe make a move so we note that
-                            potentialMoves[x][y] = my_color;
+                             //The player can maybe make a move so we note that
+                            potentialCoordinates.add(new Point(x,y));
                             foundPotentialMove = true;
                         }
 
@@ -92,7 +91,7 @@ public class BoardModel {
                 }
         }
         //Returns the positions in a list
-        return listOfMoves;
+        return coordinates;
     }
 
     //Check element on board. 0 is empty, 1 is enemy and 2 is ally(you)
@@ -108,30 +107,27 @@ public class BoardModel {
 
     //Method for player's turn
     public void turn(int x, int y, char my_color) {
+        List<Point> coordinatesCheck = new ArrayList<>();
         //Detects first if you put brick on a brick
         if (getID(x,y,BOARD) != '.') {
             System.out.println("NOT VALID");
         } else {
              //Places the color
             BOARD[x][y] = my_color;
-            boolean[][] MOVES = new boolean[SIZE][SIZE];
-            MOVES = checkIfMoveIsValid(BOARD, x, y, my_color);
+            coordinatesCheck = checkIfMoveIsValid(BOARD, x, y, my_color);
             safeToMove = false;
-            //If it doesn't find any valid moves, it will send an illegal move message
-            for (int row = 0; row < MOVES.length; row++) {
-                for (int col = 0; col < MOVES.length; col++) {
-                    if (MOVES[row][col] == true) {
-                        safeToMove = true;
-                        place(row, col, my_color);
-                    }
-               }
+            for (int i = 0; i < coordinatesCheck.size(); i++) {
             }
-            
-            //Detects if it is an illegal move
-            if (safeToMove == false) {
+            //If it doesn't find any valid moves, it will send an illegal move message
+            if (coordinatesCheck.isEmpty() == true) {
                 BOARD[x][y] = '.';
                 System.out.println("Illegal move!");
-            } 
+            } else {
+                for (int i = 0; i < coordinatesCheck.size(); i++) {
+                    safeToMove = true;
+                    place(coordinatesCheck.get(i).x, coordinatesCheck.get(i).y, my_color);
+                }
+            }
         }
     }
 

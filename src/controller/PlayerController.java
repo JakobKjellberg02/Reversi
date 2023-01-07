@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import model.BoardModel;
 import view.BoardView;
+import java.util.List;
+import java.awt.Point;
 
 public class PlayerController {
 
@@ -46,15 +48,12 @@ public class PlayerController {
 						for (int row = 0; row < boardModel.getSize(); row++) {
 							for (int col = 0; col < boardModel.getSize(); col++) {
 								if (boardModel.getID(row, col, boardModel.getBoard()) == '.') {
-									boolean[][] MOVES = new boolean[boardModel.getSize()][boardModel.getSize()];
-            						MOVES = boardModel.checkIfMoveIsValid(boardModel.getBoard(), row, col, boardView.players[boardView.turn].getColor());
-									for (int rowx = 0; rowx < MOVES.length; rowx++) {
-										for (int colx = 0; colx < MOVES.length; colx++) {
-											if (MOVES[rowx][colx] == true) {
-												validTurn = true;
-												break outerloop;
-											}
-									   }
+									List<Point> coordinates = boardModel.checkIfMoveIsValid(boardModel.getBoard(), row, col, boardView.players[boardView.turn].getColor());
+									if (coordinates.isEmpty() != true) {
+										validTurn = true;
+										break outerloop;
+									} else {
+										continue;
 									}
 								}
 							}
@@ -68,7 +67,6 @@ public class PlayerController {
 							System.out.println("GG");
 							switchPlayer();
 						}
-
 					}
 				}else  {
 					System.out.println("ERROR: Unexpected ActionCommand");
