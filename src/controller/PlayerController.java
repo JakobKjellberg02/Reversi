@@ -51,7 +51,7 @@ public class PlayerController {
 							boardModel.errorMessage = "You can make a turn";
 						} else {
 							//The player can maybe lose now if the other player also gets this 
-							System.out.println("GG");
+							boardModel.errorMessage = "";
 							switchPlayer();
 							decideTheMatch();
 						}
@@ -72,7 +72,6 @@ public class PlayerController {
 			boardView.turn = 1;
 		}
 		boardModel.safeToMove = false;	
-		System.out.println("It is now: " + boardView.players[boardView.turn].getName() + "'s turn!");
 		boardView.changeScore();
 	}
 
@@ -81,9 +80,9 @@ public class PlayerController {
 		if (boardView.players[0].successfulPlay == false && boardView.players[1].successfulPlay == false) {
 			boardView.disablePassButton();
 			if (boardView.players[0].points > boardView.players[1].points) {
-				boardView.score.setText(boardView.players[0].getName() + " vandt!");
+				boardView.score.setText(boardView.players[0].getName() + " vandt med: " + boardView.players[0].getPoints() + " points");
 			} else if (boardView.players[0].points < boardView.players[1].points) {
-				boardView.score.setText(boardView.players[1].getName() + " vandt!");
+				boardView.score.setText(boardView.players[1].getName() + " vandt med: " + boardView.players[1].getPoints() + " points");
 			} else {
 				boardView.score.setText("Uafgjort D:");
 			}
