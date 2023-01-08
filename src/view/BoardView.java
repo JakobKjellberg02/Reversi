@@ -153,6 +153,7 @@ public class BoardView extends Application{
     changeScore();
 	}
 
+  //Disables the pass button
   public void disablePassButton() {
     passButton.setDisable(true);
   }
@@ -167,6 +168,7 @@ public class BoardView extends Application{
     Application.launch(args);
   }
 
+  //Resets board visuals
   public void resetBoard() {
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
