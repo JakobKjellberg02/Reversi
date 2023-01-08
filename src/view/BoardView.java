@@ -56,7 +56,6 @@ public class BoardView extends Application{
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    boardController.init();
 
     primaryStage.setTitle("Reversi");
     BorderPane bPane = new BorderPane();
@@ -80,7 +79,14 @@ public class BoardView extends Application{
         
       }
     }
+
+    //Start of game
+    boardController.init();
+    boardController.updateOutline();
     bPane.setCenter(gridPane); 
+
+
+
 
     //Bottom piece of the screen - Pass
     passButton = new Button();
@@ -99,7 +105,7 @@ public class BoardView extends Application{
     //Changes the font
     score.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
     //Adds a background color
-    score.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
+    score.setBackground(new Background(new BackgroundFill(Color.PERU, CornerRadii.EMPTY, Insets.EMPTY)));
     //Adds a border
     score.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     //Change the alignment of the text

@@ -48,13 +48,16 @@ public class PlayerController {
 						}
 						//The player can make a turn
 						if (validTurn == true) {
-							System.out.println("You can make a turn!");
+							boardModel.errorMessage = "You can make a turn";
 						} else {
 							//The player can maybe lose now if the other player also gets this 
-							decideTheMatch();
 							System.out.println("GG");
 							switchPlayer();
+							decideTheMatch();
 						}
+						if (boardModel.errorMessage.isEmpty() != true) {
+							boardView.score.setText(boardModel.errorMessage);
+						}	
 				}
 			}         
 		});
@@ -76,6 +79,7 @@ public class PlayerController {
 	//Method for checking if the match is over 
 	private void decideTheMatch() {
 		if (boardView.players[0].successfulPlay == false && boardView.players[1].successfulPlay == false) {
+			boardView.disablePassButton();
 			if (boardView.players[0].points > boardView.players[1].points) {
 				boardView.score.setText(boardView.players[0].getName() + " vandt!");
 			} else if (boardView.players[0].points < boardView.players[1].points) {

@@ -37,6 +37,7 @@ public class RestartController {
 					boardController.init();
 					boardController.switchTurns();
 					boardView.disablePassButton();
+					boardController.updateOutline();
 
 					boardController.firstTurns = 0;
 					boardController.allFirstMoves = 0;

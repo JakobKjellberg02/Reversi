@@ -12,6 +12,7 @@ public class BoardModel {
     public boolean safeToMove = false;
     public boolean startOfGame = true;
     public boolean switchPlayer = false;
+    public String errorMessage = "";
 
     //Constructor
     public BoardModel(int SIZE) {
@@ -97,9 +98,10 @@ public class BoardModel {
     public void turn(int x, int y, char my_color) {
         List<Point> coordinatesCheck = new ArrayList<>();
         switchPlayer = false;
+        errorMessage = "";
         //Detects first if you put brick on a brick
         if (getID(x,y,BOARD) != '.') {
-            System.out.println("NOT VALID");
+            errorMessage = "Illegal move!";
         } else {
              //Places the color
             BOARD[x][y] = my_color;
@@ -110,7 +112,7 @@ public class BoardModel {
             //If it doesn't find any valid moves, it will send an illegal move message
             if (coordinatesCheck.isEmpty() == true) {
                 BOARD[x][y] = '.';
-                System.out.println("Illegal move!");
+                errorMessage = "Illegal move!";
             } else {
                 for (int i = 0; i < coordinatesCheck.size(); i++) {
                     safeToMove = true;

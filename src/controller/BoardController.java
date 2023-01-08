@@ -17,7 +17,7 @@ public class BoardController  {
 	private BoardView boardView;
 	private EventHandler<ActionEvent> eventHandler;
 
-	List<Point> firstMoves = new ArrayList<>();
+	public List<Point> firstMoves = new ArrayList<>();
 	public int firstTurns = 0;
 	public int allFirstMoves = 0;
 
@@ -37,10 +37,16 @@ public class BoardController  {
 									for (int i = 0; i < firstMoves.size(); i++) {
 										if (row == firstMoves.get(i).x && col == firstMoves.get(i).y) {
 											boardModel.place(row, col, boardView.players[boardView.turn].getColor());
+											if ((firstMoves.get(i).x + firstMoves.get(i).y) % 2 == 0) {
+												boardView.board_gui[i][firstMoves.get(i).y].setStyle("-fx-background-color: #023602");  
+											} else {
+												boardView.board_gui[i][firstMoves.get(i).y].setStyle("-fx-background-color: #046e04");  
+											}
 											firstMoves.remove(i);
 											firstTurns += 1;
 											allFirstMoves += 1;
 											boardView.update();	
+											updateOutline();
 										}
 									}
 
@@ -73,7 +79,10 @@ public class BoardController  {
 									switchTurns();
 								}
 								boardView.update();		
-								}		    
+								}	
+								if (boardModel.errorMessage.isEmpty() != true) {
+									boardView.score.setText(boardModel.errorMessage);
+								}	    
 							}
 						}
 					}
@@ -90,6 +99,16 @@ public class BoardController  {
 		firstMoves.add(new Point(3, 4));
 		firstMoves.add(new Point(4, 3));
 		firstMoves.add(new Point(4, 4));
+	}
+
+	public void updateOutline() {
+		for (int i = 0; i < firstMoves.size(); i++) {
+			if ((firstMoves.get(i).x + firstMoves.get(i).y) % 2 == 0) {
+				boardView.board_gui[firstMoves.get(i).x][firstMoves.get(i).y].setStyle("-fx-border-color: red; -fx-background-color: #023602");  
+			} else {
+				boardView.board_gui[firstMoves.get(i).x][firstMoves.get(i).y].setStyle("-fx-border-color: red; -fx-background-color: #046e04");  
+			}
+		}
 	}
 
 	public void switchTurns() {
