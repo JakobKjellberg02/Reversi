@@ -28,17 +28,21 @@ public class RestartController {
 		this.setEventHandler(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent evt) {
 				Button x = (Button) evt.getSource();    
-				//User clicks on the restart button
+				//User clicks on the restart button and restarts the game
 				if (x.getId().equals(boardView.restartButton.getId())) {
+					//Clears the board in model
 					boardModel.fillBoard();
 					boardModel.startOfGame = true;
+					//Clears the board in view
 					boardView.resetBoard();
 					boardView.update();
+					//Initializes the controller
 					boardController.init();
 					boardController.switchTurns();
 					boardView.disablePassButton();
 					boardController.updateOutline();
 
+					//Make sure like everything is like if you just start the program without exiting
 					boardController.firstTurns = 0;
 					boardController.allFirstMoves = 0;
 

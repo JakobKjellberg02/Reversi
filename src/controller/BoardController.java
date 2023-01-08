@@ -28,15 +28,17 @@ public class BoardController  {
 
 		this.setEventHandler(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent evt) {		
+				//If-statement for start of every game
 				if (boardModel.startOfGame == true) {
 					for (int row = 0; row < BoardView.BOARD_SIZE; row++) {
 						for (int col = 0; col < BoardView.BOARD_SIZE; col++) {
 							if (evt.getSource() == boardView.board_gui[row][col]) {
-								//Makes the turn from which the button has been pressed on the grid
+								//Detects if the player has played two times
 								if (firstTurns < 2) {
 									for (int i = 0; i < firstMoves.size(); i++) {
 										if (row == firstMoves.get(i).x && col == firstMoves.get(i).y) {
 											boardModel.place(row, col, boardView.players[boardView.turn].getColor());
+											//Styling the placed brick's background
 											if ((firstMoves.get(i).x + firstMoves.get(i).y) % 2 == 0) {
 												boardView.board_gui[i][firstMoves.get(i).y].setStyle("-fx-background-color: #023602");  
 											} else {
@@ -45,11 +47,13 @@ public class BoardController  {
 											firstMoves.remove(i);
 											firstTurns += 1;
 											allFirstMoves += 1;
+											//Updates score and outline
 											boardView.update();	
 											updateOutline();
 										}
 									}
 
+									//If four pieces has been placed the game begins
 									if (allFirstMoves == 4) {
 										boardModel.startOfGame = false;
 										switchTurns();
@@ -57,6 +61,7 @@ public class BoardController  {
 										break;
 									}
 
+									//The player can only place two pieces at the beginning
 									if (firstTurns == 2) {
 										switchTurns();
 										firstTurns = 0;	
@@ -80,6 +85,7 @@ public class BoardController  {
 								}
 								boardView.update();		
 								}	
+								//Error messages if you don't know how to play the game :P
 								if (boardModel.errorMessage.isEmpty() != true) {
 									boardView.score.setText(boardModel.errorMessage);
 								}	    
@@ -92,6 +98,7 @@ public class BoardController  {
 	}
 
 
+	//Hard-coded points for the initialization
 	public void init() {
 		firstMoves.clear();
 		boardModel.fillBoard();
@@ -101,6 +108,7 @@ public class BoardController  {
 		firstMoves.add(new Point(4, 4));
 	}
 
+	//Makes a red outline around the pieces that you can place at the beginning
 	public void updateOutline() {
 		for (int i = 0; i < firstMoves.size(); i++) {
 			if ((firstMoves.get(i).x + firstMoves.get(i).y) % 2 == 0) {
@@ -111,6 +119,7 @@ public class BoardController  {
 		}
 	}
 
+	//Switches player's turn
 	public void switchTurns() {
 		if (boardView.turn == 1) {
 			boardView.turn = 0;
