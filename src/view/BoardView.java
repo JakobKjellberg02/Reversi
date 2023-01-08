@@ -114,6 +114,8 @@ public class BoardView extends Application{
     restartButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     restartButton.setOnAction(restartController.getEventHandler());
     
+    //sets color of the bPane
+    bPane.setStyle("-fx-background-color: gray;");
 
     //Combines it all to the scene
     Scene scene = new Scene(bPane, 480, 555);
