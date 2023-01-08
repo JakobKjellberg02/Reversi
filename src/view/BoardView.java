@@ -60,7 +60,7 @@ public class BoardView extends Application{
     board_gui = new Button[BOARD_SIZE][BOARD_SIZE];
     GridPane gridPane = new GridPane();
     //adjusts the size of the board
-    gridPane.setPrefSize(800, 800);
+    //gridPane.setPrefSize(800, 800);
     //Show grid lines
   gridPane.setGridLinesVisible(true);
   //for loop that adds buttons to the board
@@ -109,8 +109,10 @@ public class BoardView extends Application{
     
 
     //Combines it all to the scene
-    Scene scene = new Scene(bPane, 500, 555);
+    Scene scene = new Scene(bPane, 480, 555);
     primaryStage.setScene(scene);
+    //makes the window nonsizable
+    primaryStage.setResizable(false);
     primaryStage.show();
     //adds pass and restart buttons
     HBox buttonsBox = new HBox();
