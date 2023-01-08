@@ -168,6 +168,4 @@ public class BoardView extends Application{
      }
     
   }
-
-  
 }
