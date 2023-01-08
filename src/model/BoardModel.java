@@ -10,25 +10,13 @@ public class BoardModel {
     int SIZE;
     char[][] BOARD;
     public boolean safeToMove = false;
+    public boolean startOfGame = true;
+    public boolean switchPlayer = false;
 
     //Constructor
     public BoardModel(int SIZE) {
         this.SIZE = SIZE;
         this.BOARD = new char[SIZE][SIZE];
-    }
-
-    //Initializes the start of the board but it is for an 8x8
-    public char[][] initializeBoard() {
-        //Fills the entire board with '.'
-        for (char[] row: BOARD) {
-            Arrays.fill(row, '.');    
-        }
-        //Center pieces
-        BOARD[3][3] = 'W';
-        BOARD[3][4] = 'B';
-        BOARD[4][3] = 'B';
-        BOARD[4][4] = 'W';
-        return BOARD;
     }
 
     //Method for checking if move is valid
@@ -108,6 +96,7 @@ public class BoardModel {
     //Method for player's turn
     public void turn(int x, int y, char my_color) {
         List<Point> coordinatesCheck = new ArrayList<>();
+        switchPlayer = false;
         //Detects first if you put brick on a brick
         if (getID(x,y,BOARD) != '.') {
             System.out.println("NOT VALID");
@@ -126,6 +115,7 @@ public class BoardModel {
                 for (int i = 0; i < coordinatesCheck.size(); i++) {
                     safeToMove = true;
                     place(coordinatesCheck.get(i).x, coordinatesCheck.get(i).y, my_color);
+                    switchPlayer = true;
                 }
             }
         }
@@ -146,8 +136,22 @@ public class BoardModel {
         return board[x][y]; 
     }
 
+    //Gets boolean of the start of the game
+    public boolean isItStartOfGame() {
+        return startOfGame; 
+    }
+
     //Place the brick 
     public void place(int x, int y, char my_color) {
         BOARD[x][y] = my_color;
     }
+
+    //Initializes the start of the board but it is for an 8x8
+    public void fillBoard() {
+        BOARD = new char[SIZE][SIZE];
+        for (char[] row: BOARD) {
+            Arrays.fill(row, '.');    
+        }
+    }
+
 }

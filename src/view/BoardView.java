@@ -1,6 +1,9 @@
 package view;
+import java.util.Random;
+
 import controller.BoardController;
 import controller.PlayerController;
+import controller.RestartController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,18 +33,18 @@ public class BoardView extends Application{
 
   //Fields
   public static final int BOARD_SIZE = 8;
-  public int turn = 0;
+  public int turn = new Random().nextInt(1 - 0 + 1) + 0;
 
   //Models
-  private BoardModel BOARD = new BoardModel(8);
-  private PlayerModel player1 = new PlayerModel("Michael",2,'B');
-  private PlayerModel player2 = new PlayerModel("Tom",2,'W');
+  private BoardModel boardModel = new BoardModel(8);
+  private PlayerModel player1 = new PlayerModel("Sort",0,'B');
+  private PlayerModel player2 = new PlayerModel("Hvid",0,'W');
   public PlayerModel[] players = {player1, player2};
-  char[][] board_data = BOARD.initializeBoard();
 
   //Controller
-  private BoardController boardController = new BoardController(BOARD, this);
-  private PlayerController playerController = new PlayerController(BOARD, this);
+  private BoardController boardController = new BoardController(boardModel, this);
+  private PlayerController playerController = new PlayerController(boardModel, this);
+  private RestartController restartController = new RestartController(boardModel, boardController, this);
 
   //GUI
   public Button[][] board_gui;
@@ -52,6 +55,8 @@ public class BoardView extends Application{
   //Primary stage for the program
   @Override
   public void start(Stage primaryStage) throws Exception {
+
+    boardController.init();
 
     primaryStage.setTitle("Reversi");
     BorderPane bPane = new BorderPane();
@@ -69,7 +74,7 @@ public class BoardView extends Application{
         // tilføjer knapper i hvert kvadrat
         board_gui[i][j] = new Button();
         board_gui[i][j].setPrefSize(60, 60);
-        changeColor(board_gui, BOARD, board_data, i,j);
+        changeColor(board_gui, boardModel, boardModel.getBoard(), i,j);
         gridPane.add(board_gui[i][j], j,i);
         board_gui[i][j].setOnAction(boardController.getEventHandler());
         
@@ -89,7 +94,7 @@ public class BoardView extends Application{
 
     //Top piece of the screen
     score = new TextField();
-    score.setText(players[turn].getName() + " " + players[turn].getPoints() + " " + players[turn].getColor());
+    score.setText(players[turn].getName() + " - Brikker: " + players[turn].getPoints());
     bPane.setTop(score); 
     //Changes the font
     score.setFont(Font.font("Times New Roman", FontWeight.BOLD, 20));
@@ -103,9 +108,11 @@ public class BoardView extends Application{
     //restart button bottom right
     restartButton= new Button();
     restartButton.setText("Restart");
+    restartButton.setId("1");
     restartButton.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18));
     restartButton.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
     restartButton.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+    restartButton.setOnAction(restartController.getEventHandler());
     
 
     //Combines it all to the scene
@@ -118,6 +125,7 @@ public class BoardView extends Application{
     HBox buttonsBox = new HBox();
     buttonsBox.getChildren().addAll(passButton, restartButton);
     bPane.setBottom(buttonsBox); // Add the buttonsbox to the bottom of the BorderPane
+    passButton.setDisable(true);
   }
 
   //Updates the colors of the board
@@ -126,10 +134,10 @@ public class BoardView extends Application{
     players[1].points = 0;
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
-        changeColor(board_gui, BOARD, board_data, i,j);
-        if (BOARD.getID(i, j, board_data) == players[0].getColor()) {
+        changeColor(board_gui, boardModel, boardModel.getBoard(), i,j);
+        if (boardModel.getID(i, j, boardModel.getBoard()) == players[0].getColor()) {
           players[0].points += 1;
-        } else if (BOARD.getID(i, j, board_data) == players[1].getColor()) {
+        } else if (boardModel.getID(i, j, boardModel.getBoard()) == players[1].getColor()) {
           players[1].points += 1;
         }
       }
@@ -137,10 +145,13 @@ public class BoardView extends Application{
     changeScore();
 	}
 
+  public void disablePassButton() {
+    passButton.setDisable(true);
+  }
 
   //Changes the display of the player 
   public void changeScore(){
-    score.setText(players[turn].getName() + " " + players[turn].getPoints() + " " + players[turn].getColor());
+    score.setText(players[turn].getName() + " - Brikker: " + players[turn].getPoints());
   }
 
   //Main method of the GUI
@@ -148,14 +159,22 @@ public class BoardView extends Application{
     Application.launch(args);
   }
 
+  public void resetBoard() {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
+        board_gui[i][j].setGraphic(null);
+      }
+    }
+  }
+
   //Method for changing from char to a GUI color 
-  public static void changeColor(Button[][] button, BoardModel BOARDMODEL, char[][] board_data, int i, int j) {
+  public static void changeColor(Button[][] button, BoardModel boardModel, char[][] board_data, int i, int j) {
     //if statement that creates circles
-    if (BOARDMODEL.getID(i,j,board_data) == 'B') {
+    if (boardModel.getID(i,j,board_data) == 'B') {
        Circle circleB = new Circle(22);
        circleB.setFill(Paint.valueOf("#000000"));
        button[i][j].setGraphic(circleB);
-    } else if (BOARDMODEL.getID(i,j,board_data) == 'W') {
+    } else if (boardModel.getID(i,j,board_data) == 'W') {
       Circle circleW = new Circle(22);
       circleW.setFill(Paint.valueOf("#fafcfa"));
       button[i][j].setGraphic(circleW);

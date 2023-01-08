@@ -29,18 +29,6 @@ public class PlayerController {
 				Button x = (Button) evt.getSource();    
 				//User clicks on the pass button
 				if (x.getId().equals(boardView.passButton.getId())) {
-					//Passes to the next player if it has made a turn 
-					if (boardModel.safeToMove == true) {
-						if (boardView.turn == 1) {
-							boardView.turn = 0;
-						} else {
-							boardView.turn = 1;
-						}
-						boardView.players[boardView.turn].successfulPlay = true;
-						boardModel.safeToMove = false;	
-						System.out.println("It is now: " + boardView.players[boardView.turn].getName() + "'s turn!");
-						boardView.changeScore();
-					} else {
 						//Now checks if you can still win the game or you can't make any more turn
 						validTurn = false;
 						//Checks through all positions on the board and then checks the 2d-array of validMoves to see, if it has a true in it - if it does you can still make a turn.
@@ -67,9 +55,6 @@ public class PlayerController {
 							System.out.println("GG");
 							switchPlayer();
 						}
-					}
-				}else  {
-					System.out.println("ERROR: Unexpected ActionCommand");
 				}
 			}         
 		});
@@ -92,11 +77,11 @@ public class PlayerController {
 	private void decideTheMatch() {
 		if (boardView.players[0].successfulPlay == false && boardView.players[1].successfulPlay == false) {
 			if (boardView.players[0].points > boardView.players[1].points) {
-			  System.out.println(boardView.players[0].getName() + " vandt!");
+				boardView.score.setText(boardView.players[0].getName() + " vandt!");
 			} else if (boardView.players[0].points < boardView.players[1].points) {
-			  System.out.println(boardView.players[1].getName() + " vandt!");
+				boardView.score.setText(boardView.players[1].getName() + " vandt!");
 			} else {
-			  System.out.println("Uafgjort D:");
+				boardView.score.setText("Uafgjort D:");
 			}
 		  }
 	  
