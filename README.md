@@ -10,3 +10,5 @@ Har ikke prøvet at kode det i andre IDE og Editors end VS-code, så følg linke
 # JAR-filen gider ikke at åbne
 Brug terminalen og skriv kommandoen:
 "java" --module-path "\path\javafx-sdk-19\lib" --add-modules javafx.controls,javafx.fxml,javafx.media --enable-preview -jar Reversi.jar
+
+Du skal nok installere JavaFx-sdk før det virker på: [Download](https://gluonhq.com/products/javafx/)
