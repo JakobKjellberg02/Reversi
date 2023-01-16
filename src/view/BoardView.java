@@ -63,8 +63,7 @@ public class BoardView extends Application{
     //Center piece of the screen - The Board
     board_gui = new Button[BOARD_SIZE][BOARD_SIZE];
     GridPane gridPane = new GridPane();
-    //adjusts the size of the board
-    //gridPane.setPrefSize(800, 800);
+  
     //Show grid lines
   gridPane.setGridLinesVisible(true);
   //for loop that adds buttons to the board
