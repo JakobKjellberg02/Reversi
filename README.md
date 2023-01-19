@@ -6,7 +6,7 @@ Visning af mulige træk, automatisk vending og journal over dine spil!
 
 Mulige træk            |  Journal
 :-------------------------:|:-------------------------:
-![](src/newFeature1.png)  |  ![](src/newFeature2.png)
+![](src/resources/newFeature1.png)  |  ![](src/resources/newFeature2.png)
 
 
 # Projektet virker ikke i VS-code
