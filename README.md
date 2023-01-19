@@ -11,6 +11,10 @@ Har ikke prøvet at kode det i andre IDE og Editors end VS-code, så følg linke
 Brug terminalen og skriv kommandoen:
 "java" --module-path "\path\javafx-sdk-19\lib" --add-modules javafx.controls,javafx.fxml,javafx.media --enable-preview -jar Reversi.jar
 
-Du skal nok installere JavaFx-sdk før det virker på: [Download](https://gluonhq.com/products/javafx/)
+Du skal nok installere JavaFx-sdk før det virker på: [Download](https://gluonhq.com/products/javafx/). 
+
+Et andet problem kan også være at ens Java runtime ikke er opdateret til version 19. Det kan medføre problemer, da projektet er kompileret i den version, så husk at installere den seneste runtime på: [Download](https://www.oracle.com/java/technologies/downloads/#jdk19).
+
+Det er i hvert fald disse problemer, som vi har oplevet. Skriv til os eller søg på Google(hehe), hvis der opleves flere problemer.
 
 https://github.com/JakobKjellberg02/Reversi
