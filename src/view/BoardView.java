@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -28,12 +29,16 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import model.BoardModel;
 import model.PlayerModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.Point;
 
 public class BoardView extends Application{
 
   //Fields
   public static final int BOARD_SIZE = 8;
   public int turn = new Random().nextInt(1 - 0 + 1) + 0;
+  public List<Point> knownTurns = new ArrayList<>();
 
   //Models
   private BoardModel boardModel = new BoardModel(8);
@@ -137,16 +142,36 @@ public class BoardView extends Application{
 
   //Updates the colors of the board
   public void update(){
+    boardController.clearPossibleMoves();
     players[0].points = 0;
     players[1].points = 0;
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
+        List<Point> coordinates = new ArrayList<>();
+        coordinates = boardModel.checkIfMoveIsValid(boardModel.getBoard(), i, j, players[turn].getColor());
         changeColor(board_gui, boardModel, boardModel.getBoard(), i,j);
         if (boardModel.getID(i, j, boardModel.getBoard()) == players[0].getColor()) {
           players[0].points += 1;
         } else if (boardModel.getID(i, j, boardModel.getBoard()) == players[1].getColor()) {
           players[1].points += 1;
         }
+
+        if (coordinates.isEmpty() != true && boardModel.startOfGame == false) {
+          if ((i + j) % 2 == 0 && boardModel.getID(i, j, boardModel.getBoard()) == '.') {
+            Circle circleG = new Circle(7);
+            circleG.setFill(Paint.valueOf("#FFD700"));
+            board_gui[i][j].setGraphic(circleG);
+            board_gui[i][j].setStyle("-fx-background-color: #023602");  
+            knownTurns.add(new Point(i,j));
+          } else if(boardModel.getID(i, j, boardModel.getBoard()) == '.') {
+            Circle circleG = new Circle(7);
+            circleG.setFill(Paint.valueOf("#FFD700"));
+            board_gui[i][j].setGraphic(circleG);
+            board_gui[i][j].setStyle("-fx-background-color: #046e04");  
+            knownTurns.add(new Point(i,j));
+          }
+        }
+
       }
     }
     changeScore();
@@ -182,10 +207,12 @@ public class BoardView extends Application{
     if (boardModel.getID(i,j,board_data) == 'B') {
        Circle circleB = new Circle(22);
        circleB.setFill(Paint.valueOf("#000000"));
+       circleB.setEffect(new DropShadow(20, Color.BLACK));
        button[i][j].setGraphic(circleB);
     } else if (boardModel.getID(i,j,board_data) == 'W') {
       Circle circleW = new Circle(22);
       circleW.setFill(Paint.valueOf("#fafcfa"));
+      circleW.setEffect(new DropShadow(20, Color.BLACK));
       button[i][j].setGraphic(circleW);
     } 
     //if statement that paint the boards background color

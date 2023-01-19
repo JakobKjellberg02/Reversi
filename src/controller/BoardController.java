@@ -120,6 +120,19 @@ public class BoardController  {
 	}
 
 	//Switches player's turn
+	public void clearPossibleMoves() {
+		for (int i = 0; i < boardView.knownTurns.size(); i++) {
+			if ((boardView.knownTurns.get(i).x + boardView.knownTurns.get(i).y) % 2 == 0) {
+				boardView.board_gui[boardView.knownTurns.get(i).x][boardView.knownTurns.get(i).y].setGraphic(null);
+				boardView.board_gui[boardView.knownTurns.get(i).x][boardView.knownTurns.get(i).y].setStyle("-fx-background-color: #023602");  
+			} else {
+				boardView.board_gui[boardView.knownTurns.get(i).x][boardView.knownTurns.get(i).y].setGraphic(null);
+				boardView.board_gui[boardView.knownTurns.get(i).x][boardView.knownTurns.get(i).y].setStyle("-fx-background-color: #046e04");  
+			}
+		}
+		boardView.knownTurns.clear();
+	}
+
 	public void switchTurns() {
 		if (boardView.turn == 1) {
 			boardView.turn = 0;

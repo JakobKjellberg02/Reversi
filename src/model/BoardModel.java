@@ -101,7 +101,7 @@ public class BoardModel {
         errorMessage = "";
         //Detects first if you put brick on a brick
         if (getID(x,y,BOARD) != '.') {
-            errorMessage = "Illegal move!";
+            errorMessage = "Det kan du ikke gøre!";
         } else {
              //Places the color
             BOARD[x][y] = my_color;
@@ -112,7 +112,7 @@ public class BoardModel {
             //If it doesn't find any valid moves, it will send an illegal move message
             if (coordinatesCheck.isEmpty() == true) {
                 BOARD[x][y] = '.';
-                errorMessage = "Illegal move!";
+                errorMessage = "Det kan du ikke gøre!";
             } else {
                 for (int i = 0; i < coordinatesCheck.size(); i++) {
                     safeToMove = true;

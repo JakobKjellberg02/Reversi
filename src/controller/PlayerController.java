@@ -48,7 +48,7 @@ public class PlayerController {
 						}
 						//The player can make a turn
 						if (validTurn == true) {
-							boardModel.errorMessage = "You can make a turn";
+							boardModel.errorMessage = "Du kan stadig godt sætte en brik";
 						} else {
 							//The player can maybe lose now if the other player also gets this 
 							boardModel.errorMessage = "";
