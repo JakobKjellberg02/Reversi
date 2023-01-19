@@ -1,7 +1,7 @@
 ## Reversi 
 ![alt text](https://www.coolmathgames.com/sites/default/files/Reversi%20OG%20Image.png)
 
-# Avanceret funktioner er ude!
+# Avancerede funktioner er ude!
 Visning af mulige træk, automatisk vending og journal over dine spil!
 
 Mulige træk            |  Journal
