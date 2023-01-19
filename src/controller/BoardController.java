@@ -5,8 +5,10 @@ import model.BoardModel;
 import view.BoardView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.Point;
+import java.text.SimpleDateFormat;
 
 public class BoardController  {
 
@@ -20,6 +22,7 @@ public class BoardController  {
 	public List<Point> firstMoves = new ArrayList<>();
 	public int firstTurns = 0;
 	public int allFirstMoves = 0;
+	public String path;
 
 	//Controller for the board
 	public BoardController(final BoardModel boardModel, final BoardView boardView) {
@@ -58,6 +61,11 @@ public class BoardController  {
 										boardModel.startOfGame = false;
 										switchTurns();
 										boardView.passButton.setDisable(false);
+										//Creates a new journal
+										Date date = new Date() ;
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss") ;
+										path = dateFormat.format(date) +".txt";
+										boardModel.writeToFile(path);
 										break;
 									}
 
@@ -119,7 +127,7 @@ public class BoardController  {
 		}
 	}
 
-	//Switches player's turn
+	//Method for clearing the board from orange circles
 	public void clearPossibleMoves() {
 		for (int i = 0; i < boardView.knownTurns.size(); i++) {
 			if ((boardView.knownTurns.get(i).x + boardView.knownTurns.get(i).y) % 2 == 0) {
@@ -133,6 +141,7 @@ public class BoardController  {
 		boardView.knownTurns.clear();
 	}
 
+	//Switches player's turn
 	public void switchTurns() {
 		if (boardView.turn == 1) {
 			boardView.turn = 0;

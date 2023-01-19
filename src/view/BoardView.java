@@ -38,6 +38,7 @@ public class BoardView extends Application{
   //Fields
   public static final int BOARD_SIZE = 8;
   public int turn = new Random().nextInt(1 - 0 + 1) + 0;
+  public int startingTurn = turn;
   public List<Point> knownTurns = new ArrayList<>();
 
   //Models
@@ -142,9 +143,11 @@ public class BoardView extends Application{
 
   //Updates the colors of the board
   public void update(){
+    //Clears the board from oranges circles
     boardController.clearPossibleMoves();
     players[0].points = 0;
     players[1].points = 0;
+    //Counts the bricks and assigns it to the respactable user
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE; j++) {
         List<Point> coordinates = new ArrayList<>();
@@ -156,6 +159,7 @@ public class BoardView extends Application{
           players[1].points += 1;
         }
 
+        //Places a orange cirlce if the user can make a move there
         if (coordinates.isEmpty() != true && boardModel.startOfGame == false) {
           if ((i + j) % 2 == 0 && boardModel.getID(i, j, boardModel.getBoard()) == '.') {
             Circle circleG = new Circle(7);
@@ -173,6 +177,10 @@ public class BoardView extends Application{
         }
 
       }
+    }
+    //Writes to journal if it isn't the start of the game
+    if (boardModel.startOfGame == false) {
+      boardModel.writeToFile(boardController.path);
     }
     changeScore();
 	}

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.awt.Point;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class BoardModel {
     //Fields for the board model
@@ -13,7 +17,7 @@ public class BoardModel {
     public boolean startOfGame = true;
     public boolean switchPlayer = false;
     public String errorMessage = "";
-
+    
     //Constructor
     public BoardModel(int SIZE) {
         this.SIZE = SIZE;
@@ -153,6 +157,30 @@ public class BoardModel {
         BOARD = new char[SIZE][SIZE];
         for (char[] row: BOARD) {
             Arrays.fill(row, '.');    
+        }
+    }
+
+    //Method for keeping journal of match
+    public void writeToFile(String path) {
+        try {
+            File file = new File(path);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter writer = new FileWriter(file, true);
+            BufferedWriter output = new BufferedWriter(writer);
+
+            output.write("\n");
+            for (int i = 0; i < getSize(); i++) {
+                for (int j = 0; j < getSize(); j++) {
+                    output.write(getID(i, j, BOARD));
+                }
+                output.write("\n");
+            }
+            output.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
