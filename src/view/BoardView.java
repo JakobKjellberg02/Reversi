@@ -90,9 +90,6 @@ public class BoardView extends Application{
     boardController.updateOutline();
     bPane.setCenter(gridPane); 
 
-
-
-
     //Bottom piece of the screen - Pass
     passButton = new Button();
     passButton.setText("Pass");
@@ -228,7 +225,6 @@ public class BoardView extends Application{
         button[i][j].setStyle("-fx-background-color: #023602");  
       } else {
        button[i][j].setStyle("-fx-background-color: #046e04");  
-     }
-    
+     } 
   }
 }
