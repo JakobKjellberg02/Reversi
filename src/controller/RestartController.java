@@ -41,8 +41,10 @@ public class RestartController {
 					//Switches turns
 					if (boardView.startingTurn == 1) {
 						boardView.turn = 0;
+						boardView.startingTurn = 0;
 					} else {
 						boardView.turn = 1;
+						boardView.startingTurn = 1;
 					}
 					//Pass button and red outlines
 					boardView.disablePassButton();
