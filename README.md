@@ -1,6 +1,14 @@
 ## Reversi 
 ![alt text](https://www.coolmathgames.com/sites/default/files/Reversi%20OG%20Image.png)
 
+# Avanceret funktioner er ude!
+Visning af mulige træk, automatisk vending og journal over dine spil!
+
+Mulige træk            |  Journal
+:-------------------------:|:-------------------------:
+![](src/resources/newFeature1.PNG)  |  ![](src/resources/newFeature2.PNG)
+
+
 # Projektet virker ikke i VS-code
 Projektet kører på JAVAFx, så hvis du gerne vil bruge VS-code, så skal du selv have en mappe med settings.json. Følg linket eller skriv til mig, hvis der er problemer. VS-code mappen er her nemlig ikke pga. stien er anderledes for alle brugere.
 https://dtu.bogoe.eu/02121/javafx/
